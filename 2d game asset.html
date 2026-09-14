@@ -1,43 +1,285 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 
-<title>2D Game Assets</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>2D Game Assets | Morishe Peregrino</title>
 
 <style>
 
-body{
-    background:#111;
-    color:white;
-    font-family:Arial;
-    margin:0;
+/* =========================
+   BASIC
+========================= */
+
+* {
+    box-sizing: border-box;
 }
 
-header{
-    padding:60px;
-    text-align:center;
+body {
+    margin: 0;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
 }
 
-.gallery{
 
-    width:90%;
-    margin:auto;
+/* =========================
+   HEADER
+========================= */
 
-    display:grid;
+header {
+    padding: 60px 20px;
+    text-align: center;
+}
 
-    grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+header h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
 
-    gap:25px;
+header p {
+    color: #999;
+}
+
+
+/* =========================
+   GALLERY
+========================= */
+
+.gallery {
+
+    width: 90%;
+    max-width: 1400px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(350px, 1fr));
+
+    gap: 25px;
+
+    padding-bottom: 80px;
+}
+
+
+/* IMAGE CARD */
+
+.gallery img {
+
+    width: 100%;
+
+    height: 300px;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 12px;
+
+    cursor: zoom-in;
+
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+}
+
+
+/* HOVER */
+
+.gallery img:hover {
+
+    transform: scale(1.03);
+
+    opacity: 0.85;
 
 }
 
-.gallery img{
 
-    width:100%;
+/* =========================
+   FULLSCREEN VIEWER
+========================= */
 
-    border-radius:12px;
+.lightbox {
+
+    display: none;
+
+    position: fixed;
+
+    z-index: 9999;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.96);
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 30px;
+
+    overflow: hidden;
+
+}
+
+
+/* FULL RESOLUTION IMAGE */
+
+.lightbox img {
+
+    max-width: 95%;
+    max-height: 95%;
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
+    cursor: grab;
+
+    user-select: none;
+
+    transition: transform 0.15s ease;
+
+}
+
+.lightbox img:active {
+
+    cursor: grabbing;
+
+}
+
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+
+.close {
+
+    position: fixed;
+
+    top: 20px;
+
+    right: 30px;
+
+    color: white;
+
+    font-size: 45px;
+
+    background: none;
+
+    border: none;
+
+    cursor: pointer;
+
+    z-index: 10000;
+
+}
+
+.close:hover {
+
+    opacity: 0.6;
+
+}
+
+
+/* =========================
+   ZOOM CONTROLS
+========================= */
+
+.zoom-controls {
+
+    position: fixed;
+
+    bottom: 25px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+
+    gap: 10px;
+
+    z-index: 10001;
+
+}
+
+
+.zoom-controls button {
+
+    width: 45px;
+
+    height: 45px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: rgba(255,255,255,0.15);
+
+    color: white;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+}
+
+.zoom-controls button:hover {
+
+    background: rgba(255,255,255,0.3);
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    header h1 {
+
+        font-size: 30px;
+
+    }
+
+    .gallery {
+
+        width: 94%;
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .gallery img {
+
+        height: 250px;
+
+    }
+
+    .lightbox {
+
+        padding: 10px;
+
+    }
+
+    .zoom-controls {
+
+        bottom: 15px;
+
+    }
 
 }
 
@@ -45,32 +287,657 @@ header{
 
 </head>
 
+
 <body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <header>
 
-<h1>2D Game Assets</h1>
+    <h1>2D GAME ASSETS</h1>
 
-<p>what da hill</p>
+    <p>
+        Selected 2D game art, symbols, environments and assets.
+    </p>
 
 </header>
 
+
+
+<!-- =========================
+     GALLERY
+========================= -->
+
 <div class="gallery">
 
-<img src="images/2d-assets/01.jpg">
 
-<img src="images/2d-assets/02.jpg">
+    <img
+        src="images/2d game asset/CENTER WINDOW HIGH RES.png"
+        alt="Center Window"
+        onclick="openImage(this.src)"
+    >
 
-<img src="images/2d-assets/03.jpg">
 
-<img src="images/2d-assets/04.jpg">
+    <img
+        src="images/2d game asset/LVL_3_ORB high res.png"
+        alt="Level 3 Orb"
+        onclick="openImage(this.src)"
+    >
 
-<img src="images/2d-assets/05.jpg">
 
-<img src="images/2d-assets/06.jpg">
+    <img
+        src="images/2d game asset/BULL HIGH RES.png"
+        alt="Bull"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PIC C RACOON.png"
+        alt="Racoon"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PIC C SQUIRREL.png"
+        alt="Squirrel"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PIC B EAGLE.png"
+        alt="Eagle"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PIC B BEAR HIGH RES.png"
+        alt="Bear"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PIC A HIGHRES.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PIC-C 2-HIGH-RES.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PIC-C-HIGH-RES.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/DRAGON_PIC_A_HIGHRES2.png"
+        alt="Dragon"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PIC D HIGH RES.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PIC C HIGH RES v3 copy.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/BG GOLD HIGH RES.png"
+        alt="Gold Background"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/SKY HIGH RES.png"
+        alt="Sky"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/BG SEA HR.png"
+        alt="Sea Background"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/BABY SHARK RED HR.png"
+        alt="Baby Shark"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PENGUIN HIGH RES.png"
+        alt="Penguin"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/HR PELICAN.png"
+        alt="Pelican"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/SHARK HIGH RES.png"
+        alt="Shark"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/DUCK HIGH RRES.png"
+        alt="Duck"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/EAGLE HIGH RES.png"
+        alt="Eagle"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/BABY EAGLE HIGH RES.png"
+        alt="Baby Eagle"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/TIGER HIGH RES.png"
+        alt="Tiger"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/HIGH-RES.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/MAINSCREEN BACKGROUND HR LATEST LY copy.png"
+        alt="Main Screen Background"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/ICE DRAGON MINI HR.png"
+        alt="Ice Dragon"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/GREEN COMMON SPECIAL FREE GAME BACKGROUND.png"
+        alt="Free Game Background"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/SP-DRACULA-VERTICAL.png"
+        alt="Dracula"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/SP-GHOST-VERTICAL.png"
+        alt="Ghost"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/SP-SKULL-VERTICAL.png"
+        alt="Skull"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/TRIPLE-GREEN-COMMON-FREE-GAME-BANNER.png"
+        alt="Free Game Banner"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/BLUE TRIPLE BG LABELED.png"
+        alt="Blue Background"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/SDBS-HIGHRES2.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/HIGH RES 2.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/FLOWER SYMBOL.png"
+        alt="Flower Symbol"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/MAX LEVEL EXPANDED REEL HIGH RES.png"
+        alt="Expanded Reel"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/image (4).png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PHOENIX LVL1 HR.png"
+        alt="Phoenix"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/THREE-DRAGONS-LCD-INSTANT-TRIGGER.png"
+        alt="Three Dragons"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/Title-Logo_Presentation_A1.jpg"
+        alt="Title Logo"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/TEMPLE BG HR no prog.png"
+        alt="Temple Background"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/layout.png"
+        alt="Layout"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/MONSTER LAB v2 LABELED.png"
+        alt="Monster Lab"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/final PIC C Pig LABELED.png"
+        alt="Pig"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/PIC E ss LABELD.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/Image (3).png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/Image (2).png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
 
 </div>
 
+
+
+<!-- =========================
+     FULLSCREEN
+========================= -->
+
+<div
+    id="lightbox"
+    class="lightbox"
+    onclick="closeImage()"
+>
+
+
+    <!-- CLOSE BUTTON -->
+
+    <button
+        class="close"
+        onclick="closeImage()"
+    >
+        &times;
+    </button>
+
+
+    <!-- FULL RESOLUTION IMAGE -->
+
+    <img
+        id="lightbox-image"
+        src=""
+        alt="Full Resolution"
+        onclick="event.stopPropagation()"
+    >
+
+
+    <!-- ZOOM CONTROLS -->
+
+    <div
+        class="zoom-controls"
+        onclick="event.stopPropagation()"
+    >
+
+        <button onclick="zoomIn()">+</button>
+
+        <button onclick="zoomOut()">−</button>
+
+        <button onclick="resetZoom()">⟳</button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+let zoomLevel = 1;
+
+let posX = 0;
+let posY = 0;
+
+let isDragging = false;
+
+let startX = 0;
+let startY = 0;
+
+
+/* =========================
+   OPEN IMAGE
+========================= */
+
+function openImage(imageSource) {
+
+    const lightbox =
+        document.getElementById("lightbox");
+
+    const image =
+        document.getElementById("lightbox-image");
+
+    image.src = imageSource;
+
+    lightbox.style.display = "flex";
+
+    resetZoom();
+
+}
+
+
+/* =========================
+   CLOSE IMAGE
+========================= */
+
+function closeImage() {
+
+    document.getElementById("lightbox")
+        .style.display = "none";
+
+    document.getElementById("lightbox-image")
+        .src = "";
+
+    resetZoom();
+
+}
+
+
+/* =========================
+   ZOOM IN
+========================= */
+
+function zoomIn() {
+
+    zoomLevel += 0.25;
+
+    if (zoomLevel > 5) {
+
+        zoomLevel = 5;
+
+    }
+
+    updateZoom();
+
+}
+
+
+/* =========================
+   ZOOM OUT
+========================= */
+
+function zoomOut() {
+
+    zoomLevel -= 0.25;
+
+    if (zoomLevel < 1) {
+
+        zoomLevel = 1;
+
+    }
+
+    if (zoomLevel === 1) {
+
+        posX = 0;
+        posY = 0;
+
+    }
+
+    updateZoom();
+
+}
+
+
+/* =========================
+   RESET ZOOM
+========================= */
+
+function resetZoom() {
+
+    zoomLevel = 1;
+
+    posX = 0;
+    posY = 0;
+
+    updateZoom();
+
+}
+
+
+/* =========================
+   UPDATE ZOOM
+========================= */
+
+function updateZoom() {
+
+    const image =
+        document.getElementById("lightbox-image");
+
+    image.style.transform =
+        `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
+
+}
+
+
+/* =========================
+   MOUSE WHEEL ZOOM
+========================= */
+
+document
+.getElementById("lightbox-image")
+.addEventListener("wheel", function(event) {
+
+    event.preventDefault();
+
+    if (event.deltaY < 0) {
+
+        zoomIn();
+
+    } else {
+
+        zoomOut();
+
+    }
+
+});
+
+
+/* =========================
+   DRAG / PAN IMAGE
+========================= */
+
+const image =
+    document.getElementById("lightbox-image");
+
+
+image.addEventListener("mousedown", function(event) {
+
+    if (zoomLevel <= 1) return;
+
+    isDragging = true;
+
+    startX = event.clientX - posX;
+
+    startY = event.clientY - posY;
+
+    image.style.transition = "none";
+
+});
+
+
+document.addEventListener("mousemove", function(event) {
+
+    if (!isDragging) return;
+
+    posX = event.clientX - startX;
+
+    posY = event.clientY - startY;
+
+    updateZoom();
+
+});
+
+
+document.addEventListener("mouseup", function() {
+
+    isDragging = false;
+
+    image.style.transition =
+        "transform 0.15s ease";
+
+});
+
+
+/* =========================
+   KEYBOARD CONTROLS
+========================= */
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+
+        closeImage();
+
+    }
+
+    if (event.key === "+" || event.key === "=") {
+
+        zoomIn();
+
+    }
+
+    if (event.key === "-" || event.key === "_") {
+
+        zoomOut();
+
+    }
+
+    if (event.key === "0") {
+
+        resetZoom();
+
+    }
+
+});
+
+</script>
+
+
 </body>
 
-</html>
