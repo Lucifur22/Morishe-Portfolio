@@ -85,6 +85,10 @@ header p {
 
     cursor: zoom-in;
 
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+
     transition:
         transform 0.3s ease,
         opacity 0.3s ease;
@@ -148,6 +152,8 @@ header p {
     cursor: grab;
 
     user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
 
     transition: transform 0.15s ease;
 
@@ -649,6 +655,24 @@ header p {
         onclick="openImage(this.src)"
     >
 
+    <img
+        src="images/2d game asset/FOX LEVELS.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+    
+    <img
+        src="images/2d game asset/EGG LEVELS.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+    >
+
+
+    <img
+        src="images/2d game asset/POT LEVELS.png"
+        alt="Game Asset"
+        onclick="openImage(this.src)"
+
 </div>
 
 
@@ -709,6 +733,14 @@ header p {
 ========================= -->
 
 <script>
+
+/* Discourage casual saving without interfering with zoom and panning. */
+document.querySelectorAll('.gallery img, #lightbox-image').forEach(img => {
+    img.setAttribute('draggable', 'false');
+    img.addEventListener('contextmenu', event => event.preventDefault());
+    img.addEventListener('dragstart', event => event.preventDefault());
+});
+
 
 let zoomLevel = 1;
 
