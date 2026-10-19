@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animation | Morishe Peregrino</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#111;color:#fff;font-family:Arial,sans-serif}
+header{padding:60px 20px;text-align:center}
+header h1{font-size:42px;margin:0 0 10px}
+header p{color:#999;margin:0}
+.gallery{width:90%;max-width:1400px;margin:0 auto 80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,350px),1fr));gap:25px}
+.gallery-item{min-width:0}
+.video-tile{position:relative;cursor:zoom-in;overflow:hidden;border-radius:12px;background:#1d1d1d;aspect-ratio:16/9}
+.video-tile video{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
+.video-tile:after{content:'⛶  View animation';position:absolute;bottom:12px;right:12px;background:#000a;border-radius:5px;padding:7px 10px;font-size:12px;opacity:0;transition:opacity .2s}
+.video-tile:hover:after,.video-tile:focus-visible:after{opacity:1}
+.gallery-item h3{font-size:16px;font-weight:400;margin:12px 0 0}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:65px 18px 78px}
+.lightbox.open{display:flex}
+.viewer{position:relative;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;touch-action:none;cursor:grab}
+.viewer.dragging{cursor:grabbing}
+.viewer video{max-width:100%;max-height:100%;object-fit:contain;transform-origin:center center;will-change:transform;user-select:none}
+.toolbar{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;background:#222;border:1px solid #444;padding:9px;border-radius:12px;white-space:nowrap}
+.toolbar button,.close{border:0;color:#fff;background:#393939;border-radius:7px;padding:9px 13px;cursor:pointer;font-size:16px}
+.toolbar button:hover,.close:hover{background:#555}
+.close{position:absolute;top:18px;right:20px;font-size:22px}
+.zoom-label{min-width:50px;text-align:center;font-size:13px;color:#ddd}
+@media(max-width:600px){header h1{font-size:32px}.gallery{width:92%;gap:24px}.toolbar{gap:5px;padding:6px}.toolbar button{padding:8px 10px}}
+</style>
+</head>
+<body>
+<header>
+<h1>ANIMATION</h1>
+<p>2D Animation | Game Effects | Motion Graphics</p>
+</header>
+<main class="gallery" id="gallery">
+<!-- Add or replace videos below. Store your MP4 files in the animation folder. -->
+<div class="gallery-item"><div class="video-tile" role="button" tabindex="0" aria-label="View Coin Idle Animation"><video autoplay muted loop playsinline preload="metadata"><source src="animation/animation/Coin_idle.mp4" type="video/mp4"></video></div><h3>Coin Idle</h3></div>
+<div class="gallery-item"><div class="video-tile" role="button" tabindex="0" aria-label="View Orb Level Animation"><video autoplay muted loop playsinline preload="metadata"><source src="animation/animation/Orb Levels.mp4" type="video/mp4"></video></div><h3>Orb Levels</h3></div>
+<div class="gallery-item"><div class="video-tile" role="button" tabindex="0" aria-label="View Orb Anticipation"><video autoplay muted loop playsinline preload="metadata"><source src="animation/animation/Orb Anticipation.mp4" type="video/mp4"></video></div><h3>Orb Anticipation</h3></div>
+<div class="gallery-item"><div class="video-tile" role="button" tabindex="0" aria-label="View Zai Anticipation"><video autoplay muted loop playsinline preload="metadata"><source src="animation/animation/Zai Anticipation.mp4" type="video/mp4"></video></div><h3>Zai Anticipation</h3></div>
+<div class="gallery-item"><div class="video-tile" role="button" tabindex="0" aria-label="View QIN IDLE ANIMATION PLAN"><video autoplay muted loop playsinline preload="metadata"><source src="animation/animation/QIN IDLE ANIMATION PLAN.mp4" type="video/mp4"></video></div><h3>Qin Idle Animation Plan</h3></div>
+</main>
+</main>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Animation viewer">
+<button class="close" id="close" aria-label="Close viewer">✕</button>
+<div class="viewer" id="viewer"><video id="fullVideo" controls loop playsinline draggable="false"></video></div>
+<div class="toolbar"><button id="minus" aria-label="Zoom out">−</button><span class="zoom-label" id="zoomLabel">100%</span><button id="plus" aria-label="Zoom in">+</button><button id="reset">Reset</button><button id="fullscreen">⛶</button></div>
+</div>
+<script>
+const lightbox=document.getElementById('lightbox');
+const viewer=document.getElementById('viewer');
+const fullVideo=document.getElementById('fullVideo');
+const zoomLabel=document.getElementById('zoomLabel');
+let zoom=1,dx=0,dy=0,dragging=false,startX=0,startY=0,previousFocus=null;
+function render(){fullVideo.style.transform=`translate(${dx}px,${dy}px) scale(${zoom})`;zoomLabel.textContent=Math.round(zoom*100)+'%'}
+function setZoom(z){zoom=Math.min(5,Math.max(1,z));if(zoom===1){dx=0;dy=0}render()}
+function openVideo(tile){const source=tile.querySelector('source');if(!source)return;previousFocus=document.activeElement;fullVideo.src=source.getAttribute('src');zoom=1;dx=0;dy=0;render();lightbox.classList.add('open');document.body.style.overflow='hidden';document.getElementById('close').focus();fullVideo.play().catch(()=>{});}
+function closeVideo(){fullVideo.pause();fullVideo.removeAttribute('src');fullVideo.load();lightbox.classList.remove('open');document.body.style.overflow='';if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});previousFocus?.focus()}
+document.querySelectorAll('.video-tile').forEach(tile=>{tile.addEventListener('click',()=>openVideo(tile));tile.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openVideo(tile)}})});
+document.getElementById('close').onclick=closeVideo;
+document.getElementById('plus').onclick=()=>setZoom(zoom+.25);
+document.getElementById('minus').onclick=()=>setZoom(zoom-.25);
+document.getElementById('reset').onclick=()=>setZoom(1);
+document.getElementById('fullscreen').onclick=()=>{if(!document.fullscreenElement)lightbox.requestFullscreen?.();else document.exitFullscreen?.()};
+viewer.addEventListener('wheel',e=>{e.preventDefault();setZoom(zoom+(e.deltaY<0?.2:-.2))},{passive:false});
+viewer.addEventListener('pointerdown',e=>{if(e.target===fullVideo&&zoom===1)return;if(zoom<=1)return;dragging=true;startX=e.clientX-dx;startY=e.clientY-dy;viewer.classList.add('dragging');viewer.setPointerCapture(e.pointerId)});
+viewer.addEventListener('pointermove',e=>{if(!dragging)return;dx=e.clientX-startX;dy=e.clientY-startY;render()});
+function stopDrag(){dragging=false;viewer.classList.remove('dragging')}
+viewer.addEventListener('pointerup',stopDrag);viewer.addEventListener('pointercancel',stopDrag);
+lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeVideo()});
+document.addEventListener('keydown',e=>{if(!lightbox.classList.contains('open'))return;if(e.key==='Escape')closeVideo();if(e.key==='+'||e.key==='=')setZoom(zoom+.25);if(e.key==='-')setZoom(zoom-.25);if(e.key==='0')setZoom(1)});
+// Basic protection against accidental right-click saving (not DRM).
+document.querySelectorAll('video').forEach(v=>v.addEventListener('contextmenu',e=>e.preventDefault()));
+</script>
+</body>
+</html>
