@@ -10,112 +10,106 @@ body{margin:0;background:#111;color:#fff;font-family:Arial,sans-serif}
 header{padding:60px 20px;text-align:center}
 header h1{font-size:42px;margin:0 0 10px}
 header p{color:#999;margin:0}
-.gallery{width:90%;max-width:1400px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,350px),1fr));gap:25px;padding-bottom:80px}
+.gallery{width:90%;max-width:1400px;margin:0 auto 80px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:25px}
 .gallery-item{min-width:0}
-.media-tile{width:100%;height:300px;display:block;border:0;padding:0;border-radius:12px;overflow:hidden;background:#202020;cursor:zoom-in;transition:transform .3s ease,opacity .3s ease}
-.media-tile:hover{transform:scale(1.025);opacity:.88}
-.media-tile:focus-visible,.close:focus-visible,.zoom-controls button:focus-visible{outline:2px solid white;outline-offset:3px}
-.media-tile img,.media-tile video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
-.gallery-item h3{font-size:15px;font-weight:normal;color:#ccc;margin:12px 2px 0}
-.gallery img,.lightbox img{user-select:none;-webkit-user-select:none;-webkit-user-drag:none}
-.lightbox{display:none;position:fixed;z-index:9999;inset:0;background:rgba(0,0,0,.96);justify-content:center;align-items:center;padding:55px 25px 80px;overflow:hidden}
+.media-tile{position:relative;cursor:zoom-in;overflow:hidden;border-radius:12px;background:#1d1d1d;aspect-ratio:16/9;outline-offset:4px}
+.media-tile img,.media-tile video{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.media-tile:after{content:'⛶  View asset';position:absolute;bottom:12px;right:12px;background:#000a;border-radius:5px;padding:7px 10px;font-size:12px;opacity:0;transition:opacity .2s}
+.media-tile[data-kind="video"]:after{content:'⛶  View animation'}
+.media-tile:hover:after,.media-tile:focus-visible:after{opacity:1}
+.gallery-item h3{font-size:16px;font-weight:400;margin:12px 0 0}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:65px 18px 78px}
 .lightbox.open{display:flex}
-.lightbox img{max-width:95%;max-height:100%;width:auto;height:auto;object-fit:contain;cursor:grab;transform-origin:center;transition:transform .15s ease;touch-action:none}
-.lightbox img:active{cursor:grabbing}
-.lightbox video{display:none;max-width:95%;max-height:100%;width:auto;height:auto;object-fit:contain;background:#000}
-.close{position:fixed;top:15px;right:25px;color:#fff;font-size:45px;background:none;border:0;cursor:pointer;z-index:10000}
-.zoom-controls{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10001}
-.zoom-controls button{width:45px;height:45px;border:0;border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-size:24px;cursor:pointer}
-.zoom-controls button:hover{background:rgba(255,255,255,.3)}
-@media(max-width:600px){header h1{font-size:30px}.gallery{width:94%;grid-template-columns:1fr}.media-tile{height:250px}.lightbox{padding:55px 10px 80px}.zoom-controls{bottom:15px}}
+.viewer{position:relative;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;touch-action:none;cursor:grab}
+.viewer.dragging{cursor:grabbing}
+.viewer img,.viewer video{max-width:100%;max-height:100%;object-fit:contain;transform-origin:center center;will-change:transform;user-select:none;-webkit-user-drag:none}
+.viewer img{display:none}
+.viewer video{display:none}
+.toolbar{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;background:#222;border:1px solid #444;padding:9px;border-radius:12px;white-space:nowrap}
+.toolbar button,.close{border:0;color:#fff;background:#393939;border-radius:7px;padding:9px 13px;cursor:pointer;font-size:16px}
+.toolbar button:hover,.close:hover{background:#555}
+.close{position:absolute;top:18px;right:20px;font-size:22px}
+.zoom-label{min-width:50px;text-align:center;font-size:13px;color:#ddd}
+@media(max-width:600px){header h1{font-size:32px}.gallery{width:92%;gap:24px;grid-template-columns:1fr}.toolbar{gap:5px;padding:6px}.toolbar button{padding:8px 10px}}
 </style>
 </head>
 <body>
-<header><h1>3D Game Assets</h1><p>Modeling, Texturing, Rigging &amp; Animation</p></header>
+<header><h1>3D GAME ASSETS</h1><p>Modeling | Texturing | Rigging | Animation</p></header>
 <main class="gallery" id="gallery">
-  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/MOUNTAIN2.png" aria-label="View Mountain"><img src="images/3D Game asset/MOUNTAIN2.png" alt="Mountain 3D artwork" loading="lazy"></button><h3>Mountain</h3></div>
-  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/perfume_3.png" aria-label="View Perfume"><img src="images/3D Game asset/perfume_3.png" alt="Perfume 3D render" loading="lazy"></button><h3>Perfume</h3></div>
-  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/practice 2.png" aria-label="View 3D Practice 2"><img src="images/3D Game asset/practice 2.png" alt="3D practice render 2" loading="lazy"></button><h3>3D Practice 2</h3></div>
-  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/practice.png" aria-label="View 3D Practice"><img src="images/3D Game asset/practice.png" alt="3D practice render" loading="lazy"></button><h3>3D Practice</h3></div>
-  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/untitled.png" aria-label="View 3D Artwork"><img src="images/3D Game asset/untitled.png" alt="3D artwork" loading="lazy"></button><h3>3D Artwork</h3></div>
-  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/Chilies.png" aria-label="View Chilies"><img src="images/3D Game asset/Chilies.png" alt="Chilies 3D render" loading="lazy"></button><h3>Chilies</h3></div>
-  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/Dynamite.png" aria-label="View Dynamite"><img src="images/3D Game asset/Dynamite.png" alt="Dynamite 3D render" loading="lazy"></button><h3>Dynamite</h3></div>
-  <div class="gallery-item"><button class="media-tile" type="button" data-video="images/3D Game asset/BADGE PURPLE.mp4" aria-label="Play Badge Purple"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/BADGE PURPLE.mp4" type="video/mp4"></video></button><h3>Badge Purple</h3></div>
-  <div class="gallery-item"><button class="media-tile" type="button" data-video="images/3D Game asset/CHINESE PURPLE.mp4" aria-label="Play Chinese Purple"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/CHINESE PURPLE.mp4" type="video/mp4"></video></button><h3>Chinese Purple</h3></div>
-  <div class="gallery-item"><button class="media-tile" type="button" data-video="images/3D Game asset/CHINESE COIN.mp4" aria-label="Play Chinese Coin"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/CHINESE COIN.mp4" type="video/mp4"></video></button><h3>Chinese Coin</h3></div>
-  <!-- Convert the original MKV videos to MP4 (H.264) and use these filenames. -->
-  <div class="gallery-item"><button class="media-tile" type="button" data-video="images/3D Game asset/COIN 2.mp4" aria-label="Play Coin 2"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/COIN 2.mp4" type="video/mp4"></video></button><h3>Coin 2</h3></div>
-  <div class="gallery-item"><button class="media-tile" type="button" data-video="images/3D Game asset/coin v30000-0130.mp4" aria-label="Play Coin Animation"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/coin v30000-0130.mp4" type="video/mp4"></video></button><h3>Coin Animation</h3></div>
- 
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Mountain" data-kind="image"><img src="images/3D Game asset/MOUNTAIN2.png" alt="Mountain 3D render" draggable="false"></div><h3>Mountain</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Perfume Bottle" data-kind="image"><img src="images/3D Game asset/perfume_3.png" alt="Perfume 3D render" draggable="false"></div><h3>Perfume Bottle</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Perfume Bottle 2" data-kind="image"><img src="images/3D Game asset/untitled.png" alt="3D render" draggable="false"></div><h3>Perfume Bottle</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View House" data-kind="image"><img src="images/3D Game asset/practice 2.png" alt="3D practice render 2" draggable="false"></div><h3>House</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View House 2" data-kind="image"><img src="images/3D Game asset/practice.png" alt="3D practice render" draggable="false"></div><h3>House</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Chilies" data-kind="image"><img src="images/3D Game asset/Chilies.png" alt="Chilies 3D render" draggable="false"></div><h3>Chilies</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Dynamite" data-kind="image"><img src="images/3D Game asset/Dynamite.png" alt="Dynamite 3D render" draggable="false"></div><h3>Dynamite</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Ingot" data-kind="image"><img src="images/3D Game asset/INGOT 1.png" alt="Chilies 3D render" draggable="false"></div><h3>Chinese</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Chinese Ingot" data-kind="image"><img src="images/3D Game asset/INGOT 2.png" alt="Dynamite 3D render" draggable="false"></div><h3>Chinese Ingot</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Heart" data-kind="image"><img src="images/3D Game asset/heart_op3.png" alt="Chilies 3D render" draggable="false"></div><h3>Heart</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Spade" data-kind="image"><img src="images/3D Game asset/spades1.png" alt="Dynamite 3D render" draggable="false"></div><h3>Spades</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Club" data-kind="image"><img src="images/3D Game asset/club.png" alt="Chilies 3D render" draggable="false"></div><h3>Club</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Diamond" data-kind="image"><img src="images/3D Game asset/diamond.png" alt="Dynamite 3D render" draggable="false"></div><h3>Diamond</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Badge Purple animation" data-kind="video"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/BADGE PURPLE.mp4" type="video/mp4"></video></div><h3>Chinese Badge</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Chinese Purple animation" data-kind="video"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/CHINESE PURPLE.mp4" type="video/mp4"></video></div><h3>Chinese Badge</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Chinese Coin animation" data-kind="video"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/CHINESE COIN.mp4" type="video/mp4"></video></div><h3>Chinese Coin</h3></div>
+<!-- Convert the two original MKV files to H.264 MP4 before using these paths. -->
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Coin 2 animation" data-kind="video"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/COIN 2.mp4" type="video/mp4"></video></div><h3>Coin 2</h3></div>
+<div class="gallery-item"><div class="media-tile" role="button" tabindex="0" aria-label="View Coin Coin Shower" data-kind="video"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/coin v30000-0130.mp4" type="video/mp4"></video></div><h3>Coin Shower</h3></div>
+
 </main>
-<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Media viewer">
-  <button class="close" id="close" aria-label="Close viewer">&times;</button>
-  <img id="lightbox-image" alt="Full resolution artwork" draggable="false" style="display:none">
-  <video id="lightbox-video" controls playsinline></video>
-  <div class="zoom-controls" id="zoom-controls">
-    <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
-    <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
-    <button type="button" id="zoom-reset" aria-label="Reset zoom">⟳</button>
-  </div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Asset viewer">
+<button class="close" id="close" aria-label="Close viewer">✕</button>
+<div class="viewer" id="viewer"><img id="fullImage" alt="Full-resolution 3D asset" draggable="false"><video id="fullVideo" controls loop playsinline draggable="false"></video></div>
+<div class="toolbar"><button id="minus" aria-label="Zoom out">−</button><span class="zoom-label" id="zoomLabel">100%</span><button id="plus" aria-label="Zoom in">+</button><button id="reset">Reset</button><button id="fullscreen" aria-label="Fullscreen">⛶</button></div>
 </div>
 <script>
-const gallery=document.getElementById('gallery');
 const lightbox=document.getElementById('lightbox');
-const image=document.getElementById('lightbox-image');
-const video=document.getElementById('lightbox-video');
-const controls=document.getElementById('zoom-controls');
-let zoomLevel=1,posX=0,posY=0,isDragging=false,startX=0,startY=0,lastTrigger=null;
-function updateZoom(){image.style.transform=`translate(${posX}px, ${posY}px) scale(${zoomLevel})`}
-function resetZoom(){zoomLevel=1;posX=0;posY=0;updateZoom()}
-function zoomIn(){zoomLevel=Math.min(5,zoomLevel+.25);updateZoom()}
-function zoomOut(){zoomLevel=Math.max(1,zoomLevel-.25);if(zoomLevel===1){posX=0;posY=0}updateZoom()}
+const viewer=document.getElementById('viewer');
+const fullImage=document.getElementById('fullImage');
+const fullVideo=document.getElementById('fullVideo');
+const zoomLabel=document.getElementById('zoomLabel');
+let zoom=1,dx=0,dy=0,dragging=false,startX=0,startY=0,previousFocus=null,activeMedia=null;
+function render(){if(activeMedia)activeMedia.style.transform=`translate(${dx}px,${dy}px) scale(${zoom})`;zoomLabel.textContent=Math.round(zoom*100)+'%'}
+function setZoom(z){zoom=Math.min(5,Math.max(1,z));if(zoom===1){dx=0;dy=0}render()}
 function openMedia(tile){
-  lastTrigger=tile;resetZoom();
-  lightbox.classList.add('open');document.body.style.overflow='hidden';
-  if(tile.dataset.image){
-    video.pause();video.removeAttribute('src');video.load();video.style.display='none';
-    image.src=tile.dataset.image;image.alt=tile.querySelector('img')?.alt||'Full resolution artwork';
-    image.style.display='block';controls.style.display='flex';
+  previousFocus=document.activeElement;
+  zoom=1;dx=0;dy=0;
+  if(tile.dataset.kind==='video'){
+    const source=tile.querySelector('source');if(!source)return;
+    fullImage.style.display='none';fullVideo.style.display='block';
+    fullVideo.src=source.getAttribute('src');activeMedia=fullVideo;
   }else{
-    image.style.display='none';image.removeAttribute('src');controls.style.display='none';
-    video.src=tile.dataset.video;video.style.display='block';video.currentTime=0;
-    video.play().catch(()=>{});
+    const img=tile.querySelector('img');if(!img)return;
+    fullVideo.style.display='none';fullImage.style.display='block';
+    fullImage.src=img.getAttribute('src');fullImage.alt=img.alt;activeMedia=fullImage;
   }
-  document.getElementById('close').focus();
+  render();lightbox.classList.add('open');document.body.style.overflow='hidden';document.getElementById('close').focus();
+  if(activeMedia===fullVideo)fullVideo.play().catch(()=>{});
 }
 function closeMedia(){
-  if(!lightbox.classList.contains('open'))return;
-  lightbox.classList.remove('open');document.body.style.overflow='';
-  video.pause();video.removeAttribute('src');video.load();video.style.display='none';
-  image.removeAttribute('src');image.style.display='none';isDragging=false;resetZoom();
-  lastTrigger?.focus();
+  fullVideo.pause();fullVideo.removeAttribute('src');fullVideo.load();
+  fullImage.removeAttribute('src');fullImage.style.transform='';fullVideo.style.transform='';
+  lightbox.classList.remove('open');document.body.style.overflow='';activeMedia=null;dragging=false;viewer.classList.remove('dragging');
+  if(document.fullscreenElement===lightbox)document.exitFullscreen().catch(()=>{});
+  previousFocus?.focus();
 }
-gallery.addEventListener('click',event=>{const tile=event.target.closest('.media-tile');if(tile)openMedia(tile)});
-document.getElementById('close').addEventListener('click',closeMedia);
-lightbox.addEventListener('click',event=>{if(event.target===lightbox)closeMedia()});
-document.getElementById('zoom-in').addEventListener('click',zoomIn);
-document.getElementById('zoom-out').addEventListener('click',zoomOut);
-document.getElementById('zoom-reset').addEventListener('click',resetZoom);
-image.addEventListener('wheel',event=>{event.preventDefault();if(event.deltaY<0)zoomIn();else zoomOut()},{passive:false});
-image.addEventListener('pointerdown',event=>{if(zoomLevel<=1||event.button!==0)return;event.preventDefault();isDragging=true;startX=event.clientX-posX;startY=event.clientY-posY;image.setPointerCapture(event.pointerId);image.style.transition='none'});
-image.addEventListener('pointermove',event=>{if(!isDragging)return;posX=event.clientX-startX;posY=event.clientY-startY;updateZoom()});
-function stopDrag(){isDragging=false;image.style.transition='transform .15s ease'}
-image.addEventListener('pointerup',stopDrag);image.addEventListener('pointercancel',stopDrag);
-document.querySelectorAll('.gallery img,.lightbox img').forEach(img=>{img.addEventListener('contextmenu',e=>e.preventDefault());img.addEventListener('dragstart',e=>e.preventDefault())});
-document.addEventListener('keydown',event=>{
-  if(!lightbox.classList.contains('open'))return;
-  if(event.key==='Escape'){closeMedia();return}
-  if(event.key==='Tab'){
-    const focusable=[...lightbox.querySelectorAll('button,video[controls]')].filter(el=>el.getClientRects().length);
-    const first=focusable[0],last=focusable[focusable.length-1];
-    if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}
-    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
-  }
-  if(image.style.display==='none'||['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;
-  if(event.key==='+'||event.key==='=')zoomIn();
-  if(event.key==='-'||event.key==='_')zoomOut();
-  if(event.key==='0')resetZoom();
+document.querySelectorAll('.media-tile').forEach(tile=>{
+  tile.addEventListener('click',()=>openMedia(tile));
+  tile.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openMedia(tile)}});
 });
+document.getElementById('close').onclick=closeMedia;
+document.getElementById('plus').onclick=()=>setZoom(zoom+.25);
+document.getElementById('minus').onclick=()=>setZoom(zoom-.25);
+document.getElementById('reset').onclick=()=>setZoom(1);
+document.getElementById('fullscreen').onclick=()=>{if(!document.fullscreenElement)lightbox.requestFullscreen?.();else document.exitFullscreen?.()};
+viewer.addEventListener('wheel',e=>{if(!activeMedia)return;e.preventDefault();setZoom(zoom+(e.deltaY<0?.2:-.2))},{passive:false});
+viewer.addEventListener('pointerdown',e=>{if(!activeMedia||zoom<=1||e.target.closest('video')?.controls)return;if(e.button!==0)return;dragging=true;startX=e.clientX-dx;startY=e.clientY-dy;viewer.classList.add('dragging');viewer.setPointerCapture(e.pointerId)});
+viewer.addEventListener('pointermove',e=>{if(!dragging)return;dx=e.clientX-startX;dy=e.clientY-startY;render()});
+function stopDrag(){dragging=false;viewer.classList.remove('dragging')}
+viewer.addEventListener('pointerup',stopDrag);viewer.addEventListener('pointercancel',stopDrag);
+lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeMedia()});
+document.addEventListener('keydown',e=>{if(!lightbox.classList.contains('open'))return;if(e.key==='Escape')closeMedia();if(e.key==='+'||e.key==='=')setZoom(zoom+.25);if(e.key==='-')setZoom(zoom-.25);if(e.key==='0')setZoom(1)});
+document.querySelectorAll('img,video').forEach(media=>{media.addEventListener('contextmenu',e=>e.preventDefault());media.addEventListener('dragstart',e=>e.preventDefault())});
 </script>
 </body>
 </html>
