@@ -5,102 +5,116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>3D Game Assets | Morishe Peregrino</title>
 <style>
-* { box-sizing: border-box; }
-body { margin: 0; background: #111; color: white; font-family: Arial, sans-serif; }
-header { padding: 60px 20px; text-align: center; }
-header h1 { font-size: 42px; margin-bottom: 10px; }
-header p { color: #999; }
-.gallery { width: 90%; max-width: 1400px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; padding-bottom: 80px; }
-.gallery img { width: 100%; height: 300px; object-fit: cover; display: block; border-radius: 12px; cursor: zoom-in; transition: transform .3s ease, opacity .3s ease; }
-.gallery img:hover { transform: scale(1.03); opacity: .85; }
-/* Discourage casual image saving while keeping zoom/pan working. */
-.gallery img, .lightbox img { user-select: none; -webkit-user-select: none; -webkit-user-drag: none; }
-.lightbox { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,.96); justify-content: center; align-items: center; padding: 30px; overflow: hidden; }
-.lightbox img { max-width: 95%; max-height: 95%; width: auto; height: auto; object-fit: contain; cursor: grab; transition: transform .15s ease; }
-.lightbox img:active { cursor: grabbing; }
-.close { position: fixed; top: 20px; right: 30px; color: white; font-size: 45px; background: none; border: none; cursor: pointer; z-index: 10000; }
-.close:hover { opacity: .6; }
-.zoom-controls { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10001; }
-.zoom-controls button { width: 45px; height: 45px; border: none; border-radius: 8px; background: rgba(255,255,255,.15); color: white; font-size: 24px; cursor: pointer; }
-.zoom-controls button:hover { background: rgba(255,255,255,.3); }
-@media(max-width:600px) { header h1 { font-size:30px; } .gallery { width:94%; grid-template-columns:1fr; } .gallery img { height:250px; } .lightbox { padding:10px; } .zoom-controls { bottom:15px; } }
+*{box-sizing:border-box}
+body{margin:0;background:#111;color:#fff;font-family:Arial,sans-serif}
+header{padding:60px 20px;text-align:center}
+header h1{font-size:42px;margin:0 0 10px}
+header p{color:#999;margin:0}
+.gallery{width:90%;max-width:1400px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,350px),1fr));gap:25px;padding-bottom:80px}
+.gallery-item{min-width:0}
+.media-tile{width:100%;height:300px;display:block;border:0;padding:0;border-radius:12px;overflow:hidden;background:#202020;cursor:zoom-in;transition:transform .3s ease,opacity .3s ease}
+.media-tile:hover{transform:scale(1.025);opacity:.88}
+.media-tile:focus-visible,.close:focus-visible,.zoom-controls button:focus-visible{outline:2px solid white;outline-offset:3px}
+.media-tile img,.media-tile video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.gallery-item h3{font-size:15px;font-weight:normal;color:#ccc;margin:12px 2px 0}
+.gallery img,.lightbox img{user-select:none;-webkit-user-select:none;-webkit-user-drag:none}
+.lightbox{display:none;position:fixed;z-index:9999;inset:0;background:rgba(0,0,0,.96);justify-content:center;align-items:center;padding:55px 25px 80px;overflow:hidden}
+.lightbox.open{display:flex}
+.lightbox img{max-width:95%;max-height:100%;width:auto;height:auto;object-fit:contain;cursor:grab;transform-origin:center;transition:transform .15s ease;touch-action:none}
+.lightbox img:active{cursor:grabbing}
+.lightbox video{display:none;max-width:95%;max-height:100%;width:auto;height:auto;object-fit:contain;background:#000}
+.close{position:fixed;top:15px;right:25px;color:#fff;font-size:45px;background:none;border:0;cursor:pointer;z-index:10000}
+.zoom-controls{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10001}
+.zoom-controls button{width:45px;height:45px;border:0;border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-size:24px;cursor:pointer}
+.zoom-controls button:hover{background:rgba(255,255,255,.3)}
+@media(max-width:600px){header h1{font-size:30px}.gallery{width:94%;grid-template-columns:1fr}.media-tile{height:250px}.lightbox{padding:55px 10px 80px}.zoom-controls{bottom:15px}}
 </style>
 </head>
 <body>
-<header><h1>3D Game Assets</h1><p>Modeling, Texture, Rigging &amp; Animation.</p></header>
-<div class="gallery">
-<img src="images/3D Game asset/MOUNTAIN2.png" alt="Center Window" onclick="openImage(this.src)" draggable="false">
-<img src="images/3D Game asset/perfume_3.png" alt="Center Window" onclick="openImage(this.src)" draggable="false">
-<img src="images/3D Game asset/practice 2.png" alt="Center Window" onclick="openImage(this.src)" draggable="false">
-<img src="images/3D Game asset/practice.png" alt="Center Window" onclick="openImage(this.src)" draggable="false">
-<img src="images/3D Game asset/untitled.png" alt="Center Window" onclick="openImage(this.src)" draggable="false">
-<img src="images/3D Game asset/Chilies.png" alt="Center Window" onclick="openImage(this.src)" draggable="false">
-<img src="images/3D Game asset/Dynamite.png" alt="Center Window" onclick="openImage(this.src)" draggable="false">
-</div>
-<div id="lightbox" class="lightbox" onclick="closeImage()">
-<button class="close" onclick="closeImage()" aria-label="Close image">&times;</button>
-<img id="lightbox-image" src="" alt="Full Resolution" onclick="event.stopPropagation()" draggable="false">
-<div class="zoom-controls" onclick="event.stopPropagation()">
-<button onclick="zoomIn()" aria-label="Zoom in">+</button>
-<button onclick="zoomOut()" aria-label="Zoom out">−</button>
-<button onclick="resetZoom()" aria-label="Reset zoom">⟳</button>
-</div>
+<header><h1>3D Game Assets</h1><p>Modeling, Texturing, Rigging &amp; Animation</p></header>
+<main class="gallery" id="gallery">
+  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/MOUNTAIN2.png" aria-label="View Mountain"><img src="images/3D Game asset/MOUNTAIN2.png" alt="Mountain 3D artwork" loading="lazy"></button><h3>Mountain</h3></div>
+  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/perfume_3.png" aria-label="View Perfume"><img src="images/3D Game asset/perfume_3.png" alt="Perfume 3D render" loading="lazy"></button><h3>Perfume</h3></div>
+  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/practice 2.png" aria-label="View 3D Practice 2"><img src="images/3D Game asset/practice 2.png" alt="3D practice render 2" loading="lazy"></button><h3>3D Practice 2</h3></div>
+  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/practice.png" aria-label="View 3D Practice"><img src="images/3D Game asset/practice.png" alt="3D practice render" loading="lazy"></button><h3>3D Practice</h3></div>
+  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/untitled.png" aria-label="View 3D Artwork"><img src="images/3D Game asset/untitled.png" alt="3D artwork" loading="lazy"></button><h3>3D Artwork</h3></div>
+  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/Chilies.png" aria-label="View Chilies"><img src="images/3D Game asset/Chilies.png" alt="Chilies 3D render" loading="lazy"></button><h3>Chilies</h3></div>
+  <div class="gallery-item"><button class="media-tile" type="button" data-image="images/3D Game asset/Dynamite.png" aria-label="View Dynamite"><img src="images/3D Game asset/Dynamite.png" alt="Dynamite 3D render" loading="lazy"></button><h3>Dynamite</h3></div>
+  <div class="gallery-item"><button class="media-tile" type="button" data-video="images/3D Game asset/BADGE PURPLE.mp4" aria-label="Play Badge Purple"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/BADGE PURPLE.mp4" type="video/mp4"></video></button><h3>Badge Purple</h3></div>
+  <div class="gallery-item"><button class="media-tile" type="button" data-video="images/3D Game asset/CHINESE PURPLE.mp4" aria-label="Play Chinese Purple"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/CHINESE PURPLE.mp4" type="video/mp4"></video></button><h3>Chinese Purple</h3></div>
+  <div class="gallery-item"><button class="media-tile" type="button" data-video="images/3D Game asset/CHINESE COIN.mp4" aria-label="Play Chinese Coin"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/CHINESE COIN.mp4" type="video/mp4"></video></button><h3>Chinese Coin</h3></div>
+  <!-- Convert the original MKV videos to MP4 (H.264) and use these filenames. -->
+  <div class="gallery-item"><button class="media-tile" type="button" data-video="images/3D Game asset/COIN 2.mp4" aria-label="Play Coin 2"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/COIN 2.mp4" type="video/mp4"></video></button><h3>Coin 2</h3></div>
+  <div class="gallery-item"><button class="media-tile" type="button" data-video="images/3D Game asset/coin v30000-0130.mp4" aria-label="Play Coin Animation"><video autoplay muted loop playsinline preload="metadata"><source src="images/3D Game asset/coin v30000-0130.mp4" type="video/mp4"></video></button><h3>Coin Animation</h3></div>
+ 
+</main>
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Media viewer">
+  <button class="close" id="close" aria-label="Close viewer">&times;</button>
+  <img id="lightbox-image" alt="Full resolution artwork" draggable="false" style="display:none">
+  <video id="lightbox-video" controls playsinline></video>
+  <div class="zoom-controls" id="zoom-controls">
+    <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+    <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+    <button type="button" id="zoom-reset" aria-label="Reset zoom">⟳</button>
+  </div>
 </div>
 <script>
-let zoomLevel = 1, posX = 0, posY = 0, isDragging = false, startX = 0, startY = 0;
-const image = document.getElementById('lightbox-image');
-function openImage(imageSource) {
-  image.src = imageSource;
-  document.getElementById('lightbox').style.display = 'flex';
-  resetZoom();
+const gallery=document.getElementById('gallery');
+const lightbox=document.getElementById('lightbox');
+const image=document.getElementById('lightbox-image');
+const video=document.getElementById('lightbox-video');
+const controls=document.getElementById('zoom-controls');
+let zoomLevel=1,posX=0,posY=0,isDragging=false,startX=0,startY=0,lastTrigger=null;
+function updateZoom(){image.style.transform=`translate(${posX}px, ${posY}px) scale(${zoomLevel})`}
+function resetZoom(){zoomLevel=1;posX=0;posY=0;updateZoom()}
+function zoomIn(){zoomLevel=Math.min(5,zoomLevel+.25);updateZoom()}
+function zoomOut(){zoomLevel=Math.max(1,zoomLevel-.25);if(zoomLevel===1){posX=0;posY=0}updateZoom()}
+function openMedia(tile){
+  lastTrigger=tile;resetZoom();
+  lightbox.classList.add('open');document.body.style.overflow='hidden';
+  if(tile.dataset.image){
+    video.pause();video.removeAttribute('src');video.load();video.style.display='none';
+    image.src=tile.dataset.image;image.alt=tile.querySelector('img')?.alt||'Full resolution artwork';
+    image.style.display='block';controls.style.display='flex';
+  }else{
+    image.style.display='none';image.removeAttribute('src');controls.style.display='none';
+    video.src=tile.dataset.video;video.style.display='block';video.currentTime=0;
+    video.play().catch(()=>{});
+  }
+  document.getElementById('close').focus();
 }
-function closeImage() {
-  document.getElementById('lightbox').style.display = 'none';
-  image.src = '';
-  isDragging = false;
-  resetZoom();
+function closeMedia(){
+  if(!lightbox.classList.contains('open'))return;
+  lightbox.classList.remove('open');document.body.style.overflow='';
+  video.pause();video.removeAttribute('src');video.load();video.style.display='none';
+  image.removeAttribute('src');image.style.display='none';isDragging=false;resetZoom();
+  lastTrigger?.focus();
 }
-function zoomIn() { zoomLevel = Math.min(5, zoomLevel + .25); updateZoom(); }
-function zoomOut() {
-  zoomLevel = Math.max(1, zoomLevel - .25);
-  if (zoomLevel === 1) { posX = 0; posY = 0; }
-  updateZoom();
-}
-function resetZoom() { zoomLevel = 1; posX = 0; posY = 0; updateZoom(); }
-function updateZoom() { image.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`; }
-image.addEventListener('wheel', function(event) {
-  event.preventDefault();
-  if (event.deltaY < 0) zoomIn(); else zoomOut();
-}, {passive:false});
-image.addEventListener('mousedown', function(event) {
-  if (zoomLevel <= 1 || event.button !== 0) return;
-  event.preventDefault();
-  isDragging = true;
-  startX = event.clientX - posX;
-  startY = event.clientY - posY;
-  image.style.transition = 'none';
-});
-document.addEventListener('mousemove', function(event) {
-  if (!isDragging) return;
-  posX = event.clientX - startX;
-  posY = event.clientY - startY;
-  updateZoom();
-});
-document.addEventListener('mouseup', function() {
-  isDragging = false;
-  image.style.transition = 'transform .15s ease';
-});
-// Block the image context menu and native drag without disabling lightbox panning.
-document.querySelectorAll('.gallery img, .lightbox img').forEach(img => {
-  img.addEventListener('contextmenu', event => event.preventDefault());
-  img.addEventListener('dragstart', event => event.preventDefault());
-});
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Escape') closeImage();
-  if (document.getElementById('lightbox').style.display !== 'flex') return;
-  if (event.key === '+' || event.key === '=') zoomIn();
-  if (event.key === '-' || event.key === '_') zoomOut();
-  if (event.key === '0') resetZoom();
+gallery.addEventListener('click',event=>{const tile=event.target.closest('.media-tile');if(tile)openMedia(tile)});
+document.getElementById('close').addEventListener('click',closeMedia);
+lightbox.addEventListener('click',event=>{if(event.target===lightbox)closeMedia()});
+document.getElementById('zoom-in').addEventListener('click',zoomIn);
+document.getElementById('zoom-out').addEventListener('click',zoomOut);
+document.getElementById('zoom-reset').addEventListener('click',resetZoom);
+image.addEventListener('wheel',event=>{event.preventDefault();if(event.deltaY<0)zoomIn();else zoomOut()},{passive:false});
+image.addEventListener('pointerdown',event=>{if(zoomLevel<=1||event.button!==0)return;event.preventDefault();isDragging=true;startX=event.clientX-posX;startY=event.clientY-posY;image.setPointerCapture(event.pointerId);image.style.transition='none'});
+image.addEventListener('pointermove',event=>{if(!isDragging)return;posX=event.clientX-startX;posY=event.clientY-startY;updateZoom()});
+function stopDrag(){isDragging=false;image.style.transition='transform .15s ease'}
+image.addEventListener('pointerup',stopDrag);image.addEventListener('pointercancel',stopDrag);
+document.querySelectorAll('.gallery img,.lightbox img').forEach(img=>{img.addEventListener('contextmenu',e=>e.preventDefault());img.addEventListener('dragstart',e=>e.preventDefault())});
+document.addEventListener('keydown',event=>{
+  if(!lightbox.classList.contains('open'))return;
+  if(event.key==='Escape'){closeMedia();return}
+  if(event.key==='Tab'){
+    const focusable=[...lightbox.querySelectorAll('button,video[controls]')].filter(el=>el.getClientRects().length);
+    const first=focusable[0],last=focusable[focusable.length-1];
+    if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}
+    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
+  }
+  if(image.style.display==='none'||['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;
+  if(event.key==='+'||event.key==='=')zoomIn();
+  if(event.key==='-'||event.key==='_')zoomOut();
+  if(event.key==='0')resetZoom();
 });
 </script>
 </body>
